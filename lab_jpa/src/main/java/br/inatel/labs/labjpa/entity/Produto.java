@@ -24,6 +24,15 @@ public class Produto {
 	@NotNull
 	@Size(min = 2, max = 200)
 	private String descricao;
+	
+	public Produto() {
+		super();
+	}
+
+	public Produto(String descricao) {
+		super();
+		this.descricao = descricao;
+	}
 
 	public Long getId() {
 		return id;
