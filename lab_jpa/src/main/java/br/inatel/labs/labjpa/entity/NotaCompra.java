@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,27 +14,38 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 
+@Entity
 public class NotaCompra {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@OneToMany(mappedBy = "notaCompra")
+
+	@OneToMany(mappedBy = "notaCompra") 
 	private List<NotaCompraItem> listaNotaCompraItem;
-	
+
 	@ManyToOne
 	private Fornecedor fornecedor;
-	
+
 	@NotNull
 	@Past
 	private LocalDate dataEmissao;
-	
+
 	public BigDecimal getCalculoTotalNota() {
-		BigDecimal total = this.listaNotaCompraItem.stream()
-				.map(i -> i.getCalculoTotalItem())
+		BigDecimal total = this.listaNotaCompraItem.stream().map(i -> i.getCalculoTotalItem())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
+
 		return total;
+	}
+
+	public NotaCompra() {
+		super();
+	}
+
+	public NotaCompra(Fornecedor fornecedor, LocalDate dataEmissao) {
+		super();
+		this.fornecedor = fornecedor;
+		this.dataEmissao = dataEmissao;
 	}
 
 	public Long getId() {
@@ -89,7 +101,5 @@ public class NotaCompra {
 	public String toString() {
 		return "NotaCompra [id=" + id + ", dataEmissao=" + dataEmissao + "]";
 	}
-	
-	
 
 }

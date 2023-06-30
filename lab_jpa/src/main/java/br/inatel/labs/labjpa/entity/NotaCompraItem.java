@@ -13,27 +13,39 @@ import jakarta.validation.constraints.Positive;
 
 @Entity
 public class NotaCompraItem {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	private NotaCompra notaCompra;
 
-	@ManyToOne	
+	@ManyToOne
 	private Produto produto;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal valorCompraProduto;
-	
+
 	@NotNull
 	@Positive
 	private Integer quantidade = 1;
-	
+
 	public BigDecimal getCalculoTotalItem() {
 		return valorCompraProduto.multiply(BigDecimal.valueOf(quantidade));
+	}
+
+	public NotaCompraItem() {
+		super();
+	}
+
+	public NotaCompraItem(NotaCompra notaCompra, Produto produto, BigDecimal valorCompraProduto, Integer quantidade) {
+		super();
+		this.notaCompra = notaCompra;
+		this.produto = produto;
+		this.valorCompraProduto = valorCompraProduto;
+		this.quantidade = quantidade;
 	}
 
 	public Long getId() {
@@ -98,7 +110,5 @@ public class NotaCompraItem {
 		return "NotaCompraItem [id=" + id + ", valorCompraProduto=" + valorCompraProduto + ", quantidade=" + quantidade
 				+ "]";
 	}
-	
-	
-	
+
 }
